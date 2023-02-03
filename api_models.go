@@ -13,6 +13,7 @@ type Response struct {
 	Teams                []Team     `json:"teams,omitempty"`
 	Venues               []Venue    `json:"venues,omitempty"`
 	Divisions            []Division `json:"divisions,omitempty"`
+	Records              []Record   `json:"records,omitempty"`
 }
 
 type Date struct {
@@ -100,7 +101,9 @@ type Team struct {
 type LeagueRecord struct {
 	Wins    int    `json:"wins"`
 	Losses  int    `json:"losses"`
+	Ties    int    `json:"ties,omitempty"`
 	Percent string `json:"pct"`
+	League  League `json:"league,omitempty"`
 }
 
 type Sport struct {
@@ -125,4 +128,75 @@ type Division struct {
 	League       League `json:"league,omitempty"`
 	Sport        Sport  `json:"sport,omitempty"`
 	HasWildcard  bool   `json:"hasWildcard,omitempty"`
+}
+
+type Record struct {
+	StandingsType string       `json:"standingsType"`
+	League        League       `json:"league,omitempty"`
+	Division      Division     `json:"division,omitempty"`
+	Sport         Sport        `json:"sport,omitempty"`
+	LastUpdated   string       `json:"lastUpdated,omitempty"`
+	TeamRecords   []TeamRecord `json:"teamRecords,omitempty"`
+}
+
+type Streak struct {
+	StreakType   string `json:"streakType,omitempty"`
+	StreakNumber int    `json:"streakNumber,omitempty"`
+	StreakCode   string `json:"streakCode,omitempty"`
+}
+
+type TeamRecordDetails struct {
+	SplitRecords    []SplitRecord    `json:"splitRecords,omitempty"`
+	DivisionRecords []DivisionRecord `json:"divisionRecords,omitempty"`
+	OverallRecords  []SplitRecord    `json:"overallRecords,omitempty"`
+	LeagueRecords   []LeagueRecord   `json:"leagueRecords,omitempty"`
+	ExpectedRecords []SplitRecord    `json:"expectedRecords,omitempty"`
+}
+
+type SplitRecord struct {
+	Wins   int    `json:"wins,omitempty"`
+	Losses int    `json:"losses,omitempty"`
+	Type   string `json:"type,omitempty"`
+	Pct    string `json:"pct,omitempty"`
+}
+
+type DivisionRecord struct {
+	Wins     int      `json:"wins,omitempty"`
+	Losses   int      `json:"losses,omitempty"`
+	Pct      string   `json:"pct,omitempty"`
+	Division Division `json:"division,omitempty"`
+}
+
+type TeamRecord struct {
+	Team                      Team              `json:"team"`
+	Season                    string            `json:"season"`
+	Streak                    Streak            `json:"streak,omitempty"`
+	ClinchIndicator           string            `json:"clinchIndicator,omitempty"`
+	DivisionRank              string            `json:"divisionRank,omitempty"`
+	LeagueRank                string            `json:"leagueRank,omitempty"`
+	SportRank                 string            `json:"sportRank,omitempty"`
+	GamesPlayed               int               `json:"gamesPlayed,omitempty"`
+	GamesBack                 string            `json:"gamesBack,omitempty"`
+	WildCardGamesBack         string            `json:"wildCardGamesBack,omitempty"`
+	LeagueGamesBack           string            `json:"leagueGamesBack,omitempty"`
+	SpringLeagueGamesBack     string            `json:"springLeagueGamesBack,omitempty"`
+	SportGamesBack            string            `json:"sportGamesBack,omitempty"`
+	DivisionGamesBack         string            `json:"divisionGamesBack,omitempty"`
+	ConferenceGamesBack       string            `json:"conferenceGamesBack,omitempty"`
+	LeagueRecord              LeagueRecord      `json:"leagueRecord,omitempty"`
+	LastUpdated               string            `json:"lastUpdated,omitempty"`
+	Records                   TeamRecordDetails `json:"records,omitempty"`
+	RunsAllowed               int               `json:"runsAllowed,omitempty"`
+	RunsScored                int               `json:"runsScored,omitempty"`
+	DivisionChamp             bool              `json:"divisionChamp,omitempty"`
+	DivisionLeader            bool              `json:"divisionLeader,omitempty"`
+	HasWildcard               bool              `json:"hasWildCard,omitempty"`
+	Clinched                  bool              `json:"clinched,omitempty"`
+	EliminationNumber         string            `json:"eliminationNumber,omitempty"`
+	WildCardEliminationNumber string            `json:"wildCardEliminationNumber,omitempty"`
+	MagicNumber               string            `json:"magicNumber,omitempty"`
+	Wins                      int               `json:"wins,omitempty"`
+	Losses                    int               `json:"losses,omitempty"`
+	RunDifferential           int               `json:"runDifferential,omitempty"`
+	WinningPercentage         string            `json:"winningPercentage,omitempty"`
 }
