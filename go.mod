@@ -1,3 +1,3 @@
-module github.com/danoscarmike/mlb
+module github.com/stevepartridge/mlb
 
 go 1.13
