@@ -72,6 +72,7 @@ type SeriesStatus struct {
 	Wins             int        `json:"wins"`
 	Losses           int        `json:"losses"`
 	WinningTeam      SeriesTeam `json:"winningTeam"`
+	LosingTeam       SeriesTeam `json:"losingTeam"`
 	Description      string     `json:"description"`
 	ShortDescription string     `json:"shortDescription"`
 	Result           string     `json:"result"`
