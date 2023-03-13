@@ -7,35 +7,35 @@ import (
 )
 
 // Get games by specific date.  Date is assumed to be relevant local to game timezone.
-func (m *Mlb) GetGamesByDate(date time.Time) ([]Game, error) {
-	return m.GetGamesByDateRange(date, date)
+func (m *Mlb) GetGamesByDate(date time.Time, hydrate bool) ([]Game, error) {
+	return m.GetGamesByDateRange(date, date, hydrate)
 }
 
 // Get games by specific date range.  Date is assumed to be relevant local to game timezone.
-func (m *Mlb) GetGamesByDateRange(start, end time.Time) ([]Game, error) {
-	return m.GetGames(start, end, 0)
+func (m *Mlb) GetGamesByDateRange(start, end time.Time, hydrate bool) ([]Game, error) {
+	return m.GetGames(start, end, 0, hydrate)
 }
 
 // Get games by date for a specific team.  Date is assumed to be relevant local to game timezone.
-func (m *Mlb) GetGamesByDateForTeam(date time.Time, teamId int) ([]Game, error) {
-	return m.GetGames(date, date, teamId)
+func (m *Mlb) GetGamesByDateForTeam(date time.Time, teamId int, hydrate bool) ([]Game, error) {
+	return m.GetGames(date, date, teamId, hydrate)
 }
 
 // Get games in date range for specific team.  Date is assumed to be relevant local to game timezone.
-func (m *Mlb) GetGamesByDateRangeForTeam(start, end time.Time, teamId int) ([]Game, error) {
-	return m.GetGames(start, end, teamId)
+func (m *Mlb) GetGamesByDateRangeForTeam(start, end time.Time, teamId int, hydrate bool) ([]Game, error) {
+	return m.GetGames(start, end, teamId, hydrate)
 }
 
-func (m *Mlb) GetGames(start, end time.Time, teamId int) ([]Game, error) {
+func (m *Mlb) GetGames(start, end time.Time, teamId int, hydrate bool) ([]Game, error) {
 
 	// &season=2018&startDate=2018-08-01&endDate=2018-08-31&teamId=119&eventTypes=primary&scheduleTypes=games
 
 	if start.IsZero() {
-		return nil, errors.New("Invalid start date")
+		return nil, errors.New("invalid start date")
 	}
 
 	if end.IsZero() {
-		return nil, errors.New("Invalid end date")
+		return nil, errors.New("invalid end date")
 	}
 
 	params := map[string]string{
@@ -52,6 +52,10 @@ func (m *Mlb) GetGames(start, end time.Time, teamId int) ([]Game, error) {
 
 	if teamId > 0 {
 		params["teamId"] = strconv.Itoa(teamId)
+	}
+
+	if hydrate {
+		params["hydrate"] = "seriesStatus"
 	}
 
 	resp, err := m.Call("/schedule", params)

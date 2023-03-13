@@ -37,21 +37,22 @@ type Game struct {
 	Content struct {
 		Link string `json:"link"`
 	} `json:"content"`
-	DoubleHeader           string  `json:"doubleHeader"`
-	GamedayType            string  `json:"gamedayType"`
-	Tiebreaker             string  `json:"tiebreaker"`
-	GameNumber             int     `json:"gameNumber"`
-	CalendarEventID        string  `json:"calendarEventID"`
-	SeasonDisplay          string  `json:"seasonDisplay"`
-	DayNight               string  `json:"dayNight"`
-	ScheduledInnings       int     `json:"scheduledInnings"`
-	GamesInSeries          int     `json:"gamesInSeries"`
-	SeriesGameNumber       int     `json:"seriesGameNumber"`
-	SeriesDescription      string  `json:"seriesDescription"`
-	RecordSource           string  `json:"recordSource"`
-	IfNecessary            string  `json:"ifNecessary"`
-	IfNecessaryDescription string  `json:"ifNecessaryDescription"`
-	Events                 []Event `json:""`
+	SeriesStatus           SeriesStatus `json:"seriesStatus,omitempty"`
+	DoubleHeader           string       `json:"doubleHeader"`
+	GamedayType            string       `json:"gamedayType"`
+	Tiebreaker             string       `json:"tiebreaker"`
+	GameNumber             int          `json:"gameNumber"`
+	CalendarEventID        string       `json:"calendarEventID"`
+	SeasonDisplay          string       `json:"seasonDisplay"`
+	DayNight               string       `json:"dayNight"`
+	ScheduledInnings       int          `json:"scheduledInnings"`
+	GamesInSeries          int          `json:"gamesInSeries"`
+	SeriesGameNumber       int          `json:"seriesGameNumber"`
+	SeriesDescription      string       `json:"seriesDescription"`
+	RecordSource           string       `json:"recordSource"`
+	IfNecessary            string       `json:"ifNecessary"`
+	IfNecessaryDescription string       `json:"ifNecessaryDescription"`
+	Events                 []Event      `json:""`
 }
 
 type GameStatus struct {
@@ -60,6 +61,29 @@ type GameStatus struct {
 	CodedGameState    string `json:"codedGameState"`
 	DetailedState     string `json:"detailedState"`
 	StatusCode        string `json:"statusCode"`
+	StartTimeTbd      bool   `json:"startTimeTBD,omitempty"`
+}
+
+type SeriesStatus struct {
+	GameNumber       int        `json:"gameNumber"`
+	TotalGames       int        `json:"totalGames"`
+	IsTied           bool       `json:"isTied"`
+	IsOver           bool       `json:"isOver"`
+	Wins             int        `json:"wins"`
+	Losses           int        `json:"losses"`
+	WinningTeam      SeriesTeam `json:"winningTeam"`
+	Description      string     `json:"description"`
+	ShortDescription string     `json:"shortDescription"`
+	Result           string     `json:"result"`
+	ShortName        string     `json:"shortName"`
+}
+
+type SeriesTeam struct {
+	SpringLeague  League `json:"springLeague"`
+	AllStarStatus string `json:"allStarStatus"`
+	Id            int    `json:"id"`
+	Name          string `json:"name"`
+	Link          string `json:"link"`
 }
 
 type Venue struct {

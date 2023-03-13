@@ -17,7 +17,7 @@ func Test_GetGamesByDate_Success(t *testing.T) {
 
 	date, _ := time.Parse("2006/01/02", validDate1)
 
-	games, err := mlbApi.GetGamesByDate(date)
+	games, err := mlbApi.GetGamesByDate(date, false)
 	if err != nil {
 		t.Error("Should not error: " + err.Error())
 	}
@@ -31,7 +31,7 @@ func Test_GetGamesByDate_Failure(t *testing.T) {
 
 	date, _ := time.Parse("2006/01/02", invalidDate1)
 
-	games, err := mlbApi.GetGamesByDate(date)
+	games, err := mlbApi.GetGamesByDate(date, false)
 	if err == nil {
 		t.Error("Should be an error")
 	}
@@ -46,7 +46,7 @@ func Test_GetGamesByDateRange_Failure_InvalidEndDate(t *testing.T) {
 	start, _ := time.Parse("2006/01/02", validDate1)
 	end, _ := time.Parse("2006/01/02", invalidDate1)
 
-	games, err := mlbApi.GetGamesByDateRange(start, end)
+	games, err := mlbApi.GetGamesByDateRange(start, end, false)
 	if err == nil {
 		t.Error("Should be an error")
 	}
@@ -60,7 +60,7 @@ func Test_GetGamesByDateForTeam_Success(t *testing.T) {
 
 	date, _ := time.Parse("2006/01/02", validDate1)
 
-	games, err := mlbApi.GetGamesByDateForTeam(date, validTeam1)
+	games, err := mlbApi.GetGamesByDateForTeam(date, validTeam1, false)
 	if err != nil {
 		t.Error("Should not error: " + err.Error())
 	}
@@ -75,12 +75,30 @@ func Test_GetGamesByDateRangeForTeam_Success(t *testing.T) {
 	start, _ := time.Parse("2006/01/02", validDate1)
 	end, _ := time.Parse("2006/01/02", validDate1)
 
-	games, err := mlbApi.GetGamesByDateRangeForTeam(start, end, validTeam1)
+	games, err := mlbApi.GetGamesByDateRangeForTeam(start, end, validTeam1, false)
 	if err != nil {
 		t.Error("Should not error: " + err.Error())
 	}
 
 	if len(games) == 0 {
 		t.Error("Games should be more than zero.")
+	}
+}
+
+func Test_GetGamesByDateWithHydrate_Success(t *testing.T) {
+
+	date, _ := time.Parse("2006/01/02", validDate1)
+
+	games, err := mlbApi.GetGamesByDate(date, true)
+	if err != nil {
+		t.Error("Should not error: " + err.Error())
+	}
+
+	if len(games) == 0 {
+		t.Error("Games should be more than zero.")
+	}
+
+	if games[7].SeriesStatus.WinningTeam.Name == "" {
+		t.Error("SeriesStatus should name winning team.")
 	}
 }
