@@ -53,6 +53,8 @@ type Game struct {
 	IfNecessary            string       `json:"ifNecessary"`
 	IfNecessaryDescription string       `json:"ifNecessaryDescription"`
 	Events                 []Event      `json:""`
+	WinningTeam            string       `json:"winningTeam,omitempty"`
+	LosingTeam             string       `json:"losingTeam,omitempty"`
 }
 
 type GameStatus struct {

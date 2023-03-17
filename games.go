@@ -72,6 +72,10 @@ func (m *Mlb) GetGames(start, end time.Time, teamId int, hydrate bool) ([]Game, 
 
 	for _, date := range resp.Dates {
 		for _, game := range date.Games {
+			if hydrate {
+				game.WinningTeam = game.SeriesStatus.WinningTeam.Name
+				game.LosingTeam = game.SeriesStatus.LosingTeam.Name
+			}
 			games = append(games, game)
 		}
 	}

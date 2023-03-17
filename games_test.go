@@ -98,7 +98,7 @@ func Test_GetGamesByDateWithHydrate_Success(t *testing.T) {
 		t.Error("Games should be more than zero.")
 	}
 
-	if games[7].SeriesStatus.WinningTeam.Name == "" {
-		t.Error("SeriesStatus should name winning team.")
+	if games[7].WinningTeam == games[7].LosingTeam {
+		t.Error("WinningTeam should not equal LosingTeam.")
 	}
 }
