@@ -68,13 +68,17 @@ func (m *Mlb) GetGames(start, end time.Time, teamId int, hydrate bool) ([]Game, 
 		return []Game{}, err
 	}
 
-	games := make([]Game, len(resp.Dates))
+	// games := make([]Game, len(resp.Dates))
+	var games []Game
 
 	for _, date := range resp.Dates {
 		for _, game := range date.Games {
-			if hydrate {
-				game.WinningTeam = game.SeriesStatus.WinningTeam.Name
-				game.LosingTeam = game.SeriesStatus.LosingTeam.Name
+			if game.Teams["home"].IsWinner {
+				game.WinningTeam = game.Teams["home"].Team.Name
+				game.LosingTeam = game.Teams["away"].Team.Name
+			} else {
+				game.WinningTeam = game.Teams["away"].Team.Name
+				game.LosingTeam = game.Teams["home"].Team.Name
 			}
 			games = append(games, game)
 		}
